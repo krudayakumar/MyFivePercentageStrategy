@@ -27,4 +27,7 @@ data class DailyDetails (
 ){
     var orgDate: Date = Date()
     var isPurchased: Boolean = false
+    var change: Double
+        get() =  (high - low/low)*100
+        set(value) {change = value}
 }

@@ -18,6 +18,7 @@ dependencies {
     testImplementation(kotlin("test"))
     implementation ("com.google.code.gson:gson:2.8.5")
     implementation("com.github.holgerbrandl.krangl:krangl:0.15.7")
+    implementation("com.yahoofinance-api:YahooFinanceAPI:3.17.0")
 }
 
 tasks.test {

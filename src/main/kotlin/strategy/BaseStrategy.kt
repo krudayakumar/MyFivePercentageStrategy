@@ -20,9 +20,11 @@ abstract class BaseStrategy {
     protected var avgValue = 0.0
     protected var startDt = ""
     protected var endDt = ""
+    protected var ticker = ""
 
-    constructor(fileName: String) {
+    constructor(tick:String, fileName: String) {
         readFileAsTextUsingInputStream(fileName)
+        ticker = tick
     }
 
     private fun readFileAsTextUsingInputStream(fileName: String) {
@@ -49,6 +51,27 @@ abstract class BaseStrategy {
         return  this
     }
 
+    fun filterByFirstTradingDay(start:String, end:String):BaseStrategy{
+        startDt = start
+        endDt = endDt
+        val startDt = SimpleDateFormat("yyyy-MM-dd").parse(startDt)
+        val endDt= SimpleDateFormat("yyyy-MM-dd").parse(endDt)
+        var preMonth = 0
+
+        filtereddata = data.stream().filter {
+           it.orgDate.after(startDt) && it.orgDate.before(endDt)
+        }.toList()
+        var tmplist = mutableListOf<DailyDetails>()
+        filtereddata.forEach {
+            if(it.orgDate.month != preMonth){
+                tmplist.add(it)
+                preMonth = it.orgDate.month
+            }
+        }
+        filtereddata = tmplist
+        return  this
+    }
+
     fun getData() = filtereddata
 
     abstract fun printSummary()
@@ -59,7 +82,7 @@ abstract class BaseStrategy {
         val maxColumn = 80
 
         "=".printTimes(maxColumn)
-        println(StringAlignUtils(maxColumn, StringAlignUtils.Alignment.CENTER).format("Investment Details"))
+        println(StringAlignUtils(maxColumn, StringAlignUtils.Alignment.CENTER).format(ticker.toUpperCase() + " - Investment Details"))
         println(
             StringAlignUtils(
                 maxColumn,
