@@ -19,6 +19,9 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.8.5")
     implementation("com.github.holgerbrandl.krangl:krangl:0.15.7")
     implementation("com.yahoofinance-api:YahooFinanceAPI:3.17.0")
+    implementation("org.jfree:jfreechart:1.5.4")
+    implementation("org.apache.poi:poi:5.2.3")
+    implementation("org.apache.poi:poi-ooxml:5.2.3")
 }
 
 tasks.test {

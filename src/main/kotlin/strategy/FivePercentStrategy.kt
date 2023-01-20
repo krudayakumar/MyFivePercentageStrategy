@@ -22,6 +22,7 @@ class FivePercentStrategy(
         totalAmt = 0.0
         noTimesPurchased = 0
         filtereddata.forEachIndexed { index, dailyDetails ->
+            if (dailyDetails.close >= 0){
             val diff = ((lastPurchasePrice - dailyDetails.close) / dailyDetails.close) * 100
             if (diff >= whenToInvestment || -whenToInvestment >= diff) {
                 val noOfStocks = Math.floor(sipAmt / dailyDetails.close).roundToInt()
@@ -32,6 +33,7 @@ class FivePercentStrategy(
                 lastPurchasePrice = dailyDetails.close
                 filtereddata[index].isPurchased = true
             }
+        }
         }
         currValue = data.get(data.size - 1).close * totalStock
         avgValue = (totalAmt / totalStock) * totalStock

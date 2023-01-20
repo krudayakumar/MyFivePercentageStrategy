@@ -24,12 +24,24 @@ open class BaseStrategyV2(private val builder: BaseBuilder) {
                 with(it) {
                     dataV2.symbol = symbol
                     dataV2.date = date
-                    dataV2.open = open.toDouble()
-                    dataV2.low = low.toDouble()
-                    dataV2.high = high.toDouble()
-                    dataV2.close = close.toDouble()
-                    dataV2.adjClose = adjClose.toDouble()
-                    dataV2.volume = volume
+                    open?.let {
+                        dataV2.open = open.toDouble()
+                    }
+                    low?.let {
+                        dataV2.low = low.toDouble()
+                    }
+                    high?.let {
+                        dataV2.high = high.toDouble()
+                    }
+                    close?.let {
+                        dataV2.close = close.toDouble()
+                    }
+                    adjClose?.let {
+                        dataV2.adjClose = adjClose.toDouble()
+                    }
+                    volume?.let {
+                        dataV2.volume = volume
+                    }
                 }
                 data.add(dataV2)
             }
@@ -49,7 +61,12 @@ open class BaseStrategyV2(private val builder: BaseBuilder) {
         return totalAmt
     }
 
-    fun toPrint() {
+
+    fun showChart(){
+
+    }
+
+    fun toPrint(): BaseStrategyV2{
         val df = DecimalFormat("#,##,###.##")
         df.roundingMode = RoundingMode.DOWN
         val maxColumn = 80
@@ -136,6 +153,7 @@ open class BaseStrategyV2(private val builder: BaseBuilder) {
                     ).format(df.format(data.filter { it.noStockPurchase != 0 }.size))
         )
         "=".printTimes(maxColumn)
+        return this
     }
 
     open class BaseBuilder(
